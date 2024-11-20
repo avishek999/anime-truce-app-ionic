@@ -4,3 +4,17 @@ http://ionicframework.com/docs/theming/ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root{
+    font-family: 'Poppins', sans-serif;
+  --Primary-bg: linear-gradient(
+    189deg,
+    rgba(43, 12, 35, 1) 0%,
+    rgba(5, 1, 19, 1) 100%
+  );
+
+  --primary-white-text: #fff;
+  --primary-black-text: black;
+  --ion-background-color:white 
+}
