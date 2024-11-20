@@ -11,6 +11,8 @@ const Auth: React.FC = () => {
 
     return (
         <IonPage className='auth flex  justify-center px-7 '>
+
+    <img src="auth/log-in-screen-image.webp" />
           <IonCard className="backdrop-blur-sm  bg-black/40">
           <IonCardContent className="login">
             <form onSubmit={handleLogin}>
