@@ -1,5 +1,7 @@
 import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+
+import { MdLogin } from "react-icons/md";
+import { RiLoginCircleFill } from "react-icons/ri";
 import React from 'react';
 import './Auth.scss'
 
@@ -46,7 +48,7 @@ const Auth: React.FC = () => {
                 shape={'round'}
               >
                 Login
-                {/* <IonIcon icon={logInOutline} /> */}
+                <MdLogin />
               </IonButton>
               <IonButton
                color={"dark"}
@@ -56,7 +58,7 @@ const Auth: React.FC = () => {
                 shape={'round'}
               >
                 Create Account
-                {/* <IonIcon icon={personCircleOutline}></IonIcon> */}
+                <RiLoginCircleFill />
               </IonButton>
             </form>
             
