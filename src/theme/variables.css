@@ -5,9 +5,8 @@ http://ionicframework.com/docs/theming/ */
 @tailwind components;
 @tailwind utilities;
 
-
-:root{
-    font-family: 'Poppins', sans-serif;
+:root {
+  font-family: "Poppins", sans-serif;
   --Primary-bg: linear-gradient(
     189deg,
     rgba(43, 12, 35, 1) 0%,
@@ -16,5 +15,6 @@ http://ionicframework.com/docs/theming/ */
 
   --primary-white-text: #fff;
   --primary-black-text: black;
-  --ion-background-color:white 
+  --ion-background-color: white;
+  --primary-danger-text: #cc0000;
 }
