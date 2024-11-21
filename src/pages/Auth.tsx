@@ -7,6 +7,8 @@ import {
   IonPage,
 } from "@ionic/react";
 import React, { useState } from "react";
+import { Slide, toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 // icons imports
 import { MdLogin } from "react-icons/md";
@@ -16,6 +18,8 @@ import { RiLoginCircleFill } from "react-icons/ri";
 import "./Auth.scss";
 import loginImage from "/public/auth/log-in-screen-image.webp";
 import registerImage from "/public/auth/register-screen-image.webp";
+
+
 
 //interface import
 import { IFormValues } from "../interface/auth";
@@ -37,18 +41,6 @@ const Auth: React.FC = () => {
     reset,
   } = useForm<IFormValues>();
 
-  // const handleLogin = (data: IFormValues) => {
-  //   console.log("Login Data:", data);
-  //   const user = FakeLogin.find(
-  //     (u) => u.email === data.email && u.password === data.password
-  //   );
-  //   if (user) {
-  //     alert("Login Successful!");
-  //   } else {
-  //     alert("Invalid credentials!");
-  //   }
-  //   reset();
-  // };
 
   const handleLogin = (data: IFormValues) => {
     console.log("login data", data);
@@ -58,9 +50,16 @@ const Auth: React.FC = () => {
     );
 
     if (user) {
-      alert("login Successful");
+      toast.success("Success Notification !", {
+        position: "top-center",
+        theme: "dark"
+      });
     } else {
-      alert("invalid credentials");
+      toast.error("Invalid Email & Password !", {
+        position: "top-center",
+        theme: "dark",
+        // icon: ({theme, type}) =>  <img src={invalidImage} sizes="50" style={{ width: '50px', height: 'auto' }} />
+      });
     }
   };
 
@@ -75,6 +74,7 @@ const Auth: React.FC = () => {
   };
   return (
     <IonPage className="auth   justify-center px-7 ">
+     <ToastContainer transition={Slide} autoClose={3000} hideProgressBar />
       <img src={isLogIn ? loginImage : registerImage} />
       <IonCard className="backdrop-blur-sm  bg-black/40">
         <IonCardContent>
