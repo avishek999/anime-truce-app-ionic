@@ -4,10 +4,9 @@ import {
   IonCard,
   IonCardContent,
   IonInput,
-  IonPage,
 } from "@ionic/react";
 import React, { useState } from "react";
-import { Slide, toast, ToastContainer } from 'react-toastify';
+import { Slide, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // icons imports
@@ -16,14 +15,13 @@ import { RiLoginCircleFill } from "react-icons/ri";
 
 // style imports
 import "./Auth.scss";
-import loginImage from "/public/auth/log-in-screen-image.webp";
-import registerImage from "/public/auth/register-screen-image.webp";
-
-
+import loginImage from "/auth/log-in-screen-image.webp";
+import registerImage from "/auth/register-screen-image.webp";
 
 //interface import
 import { IFormValues } from "../interface/auth";
 import { useForm } from "react-hook-form";
+import Wrapper from "../shared/utils/wrapper/Wrapper";
 
 // Dummy Login Data
 const FakeLogin = [
@@ -41,7 +39,6 @@ const Auth: React.FC = () => {
     reset,
   } = useForm<IFormValues>();
 
-
   const handleLogin = (data: IFormValues) => {
     console.log("login data", data);
 
@@ -52,7 +49,7 @@ const Auth: React.FC = () => {
     if (user) {
       toast.success("Success Notification !", {
         position: "top-center",
-        theme: "dark"
+        theme: "dark",
       });
     } else {
       toast.error("Invalid Email & Password !", {
@@ -62,6 +59,7 @@ const Auth: React.FC = () => {
       });
     }
   };
+
 
   const handleRegister = (data: IFormValues) => {
     console.log("Signup Data:", data);
@@ -73,99 +71,104 @@ const Auth: React.FC = () => {
     reset();
   };
   return (
-    <IonPage className="auth   justify-center px-7 ">
-     <ToastContainer transition={Slide} autoClose={3000} hideProgressBar />
-      <img src={isLogIn ? loginImage : registerImage} />
-      <IonCard className="backdrop-blur-sm  bg-black/40">
-        <IonCardContent>
-          <form onSubmit={handleSubmit(isLogIn ? handleLogin : handleRegister)}>
-            <IonInput
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Please enter a valid email address",
-                },
-              })}
-              fill="outline"
-              labelPlacement="floating"
-              label="Email"
-              type="email"
-              placeholder="Enter email"
-              color="dark"
-            />
-            {errors.email && (
-              <p className="text-[var(--primary-danger-text)]">
-                {errors.email.message}
-              </p>
-            )}
+    <Wrapper>
+      <section className="mt-[100px] px-4">
+        <ToastContainer transition={Slide} autoClose={3000} hideProgressBar />
 
-            <IonInput
-              {...register("password", {
-                required: "password is required",
-                minLength: {
-                  value: 6,
-                  message: "password must be at lest 6 digit",
-                },
-              })}
-              className="ion-margin-top"
-              fill="outline"
-              labelPlacement="floating"
-              label="Password"
-              type="password"
-              placeholder="Enter password"
-              color="dark"
-            />
-            {errors.password && (
-              <p className="text-[var(--primary-danger-text)]">
-                {errors.password.message}
-              </p>
-            )}
-            {!isLogIn && (
+        <img src={isLogIn ? loginImage : registerImage} />
+        <IonCard className="backdrop-blur-sm  bg-black/40">
+          <IonCardContent>
+            <form
+              onSubmit={handleSubmit(isLogIn ? handleLogin : handleRegister)}
+            >
               <IonInput
-                {...register("confirmPassword", {
-                  required: "Confirm Password is required",
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Please enter a valid email address",
+                  },
+                })}
+                fill="outline"
+                labelPlacement="floating"
+                label="Email"
+                type="email"
+                placeholder="Enter email"
+                color="dark"
+              />
+              {errors.email && (
+                <p className="text-[var(--primary-danger-text)]">
+                  {errors.email.message}
+                </p>
+              )}
+
+              <IonInput
+                {...register("password", {
+                  required: "password is required",
+                  minLength: {
+                    value: 6,
+                    message: "password must be at lest 6 digit",
+                  },
                 })}
                 className="ion-margin-top"
                 fill="outline"
                 labelPlacement="floating"
-                label="Confirm Password"
+                label="Password"
                 type="password"
                 placeholder="Enter password"
                 color="dark"
               />
-            )}
-            {!isLogIn && errors.confirmPassword && (
-              <p className="text-[var(--primary-danger-text)]">
-                {errors.confirmPassword.message}
-              </p>
-            )}
+              {errors.password && (
+                <p className="text-[var(--primary-danger-text)]">
+                  {errors.password.message}
+                </p>
+              )}
+              {!isLogIn && (
+                <IonInput
+                  {...register("confirmPassword", {
+                    required: "Confirm Password is required",
+                  })}
+                  className="ion-margin-top"
+                  fill="outline"
+                  labelPlacement="floating"
+                  label="Confirm Password"
+                  type="password"
+                  placeholder="Enter password"
+                  color="dark"
+                />
+              )}
+              {!isLogIn && errors.confirmPassword && (
+                <p className="text-[var(--primary-danger-text)]">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
 
-            <IonButton
-              className="ion-margin-top"
-              expand="block"
-              type="submit"
-              color="light"
-              shape="round"
-            >
-              {isLogIn ? "Login" : "Sign Up"}
-              {isLogIn ? <MdLogin /> : <RiLoginCircleFill />}
-            </IonButton>
+              <IonButton
+                className="ion-margin-top"
+                expand="block"
+                type="submit"
+                color="light"
+                shape="round"
+              >
+                {isLogIn ? "Login" : "Sign Up"}
+                {isLogIn ? <MdLogin /> : <RiLoginCircleFill />}
+              </IonButton>
 
-            <IonButton
-              color="dark"
-              className="ion-margin-top"
-              expand="block"
-              shape="round"
-              onClick={() => setIsLogIn(!isLogIn)}
-            >
-              {isLogIn ? "Create Account" : "Switch to Login"}
-              {isLogIn ? <RiLoginCircleFill /> : <MdLogin />}
-            </IonButton>
-          </form>
-        </IonCardContent>
-      </IonCard>
-    </IonPage>
+              <IonButton
+                color="dark"
+                className="ion-margin-top"
+                expand="block"
+                shape="round"
+                onClick={() => setIsLogIn(!isLogIn)}
+              >
+                {isLogIn ? "Create Account" : "Switch to Login"}
+                {isLogIn ? <RiLoginCircleFill /> : <MdLogin />}
+              </IonButton>
+            </form>
+          </IonCardContent>
+        </IonCard>
+      </section>
+    </Wrapper>
   );
 };
 
