@@ -4,6 +4,7 @@ import {
   IonCard,
   IonCardContent,
   IonInput,
+  IonLoading,
 } from "@ionic/react";
 import React, { useState } from "react";
 import { Slide, toast, ToastContainer } from "react-toastify";
@@ -31,6 +32,7 @@ const FakeLogin = [
 
 const Auth: React.FC = () => {
   const [isLogIn, setIsLogIn] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const {
     register,
@@ -41,6 +43,7 @@ const Auth: React.FC = () => {
 
   const handleLogin = (data: IFormValues) => {
     console.log("login data", data);
+
 
     const user = FakeLogin.find(
       (u) => u.email === data.email && u.password === data.password
@@ -149,10 +152,12 @@ const Auth: React.FC = () => {
                 type="submit"
                 color="light"
                 shape="round"
+                id="open-loading"
               >
-                {isLogIn ? "Login" : "Sign Up"}
+                {isLogIn ? "Logi" : "Sign Up"}
                 {isLogIn ? <MdLogin /> : <RiLoginCircleFill />}
               </IonButton>
+              <IonLoading trigger="open-loading" message="Loading...." duration={1000} />
 
               <IonButton
                 color="dark"
@@ -161,7 +166,7 @@ const Auth: React.FC = () => {
                 shape="round"
                 onClick={() => setIsLogIn(!isLogIn)}
               >
-                {isLogIn ? "Create Account" : "Switch to Login"}
+                {isLogIn ? "Create Accoun" : "Switch to Login"}
                 {isLogIn ? <RiLoginCircleFill /> : <MdLogin />}
               </IonButton>
             </form>
