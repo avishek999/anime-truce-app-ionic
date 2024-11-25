@@ -1,11 +1,3 @@
-.auth {
-  & .content {
-    --background: var(--Primary-bg);
-    
-  }
-  & .custom_scroll_container {
-    height: 100%;
-    overflow-y: auto;
-    position: relative;
-  }
+.auth{
+    background: var(--Primary-bg);
 }
