@@ -43,36 +43,87 @@ const Auth: React.FC = () => {
 
   const handleLogin = (data: IFormValues) => {
     console.log("login data", data);
-
+    setShowLoading(true)
 
     const user = FakeLogin.find(
+
       (u) => u.email === data.email && u.password === data.password
     );
 
     if (user) {
-      toast.success("Success Notification !", {
+      
+      toast.success("Login Successfull !", {
         position: "top-center",
         theme: "dark",
+        onClose: () => setShowLoading(false),
       });
     } else {
       toast.error("Invalid Email & Password !", {
         position: "top-center",
         theme: "dark",
+        onClose: () => setShowLoading(false),
         // icon: ({theme, type}) =>  <img src={invalidImage} sizes="50" style={{ width: '50px', height: 'auto' }} />
       });
     }
   };
 
-
-  const handleRegister = (data: IFormValues) => {
+  const handleRegister = async (data: IFormValues) => {
     console.log("Signup Data:", data);
+  
+    // Password validation
     if (data.password !== data.confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Password doesn't match!", {
+        position: "top-center",
+        theme: "dark",
+        onClose: () => setShowLoading(false),
+      });
       return;
     }
-    alert("Signup Successful!");
-    reset();
+  
+    setShowLoading(true); // Show a loading indicator if needed
+  
+    try {
+      // Sending POST request to the API
+      const response = await fetch("http://localhost:3000/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+          confirmPassword: data.confirmPassword,
+        }),
+      });
+  
+      if (!response.ok) {
+        // Handle HTTP errors
+        const error = await response.json();
+        throw new Error(error.message || "Registration failed");
+      }
+  
+      const result = await response.json();
+      console.log("API Response:", result);
+  
+      toast.success("Sign up Successful!", {
+        position: "top-center",
+        theme: "dark",
+        onClose: () => setShowLoading(false),
+      });
+  
+      reset(); // Reset the form fields if you use a library like react-hook-form
+    } catch (error: any) {
+      console.error("Error:", error);
+      toast.error(error.message || "Something went wrong!", {
+        position: "top-center",
+        theme: "dark",
+        onClose: () => setShowLoading(false),
+      });
+    } finally {
+      setShowLoading(false); // Hide the loading indicator
+    }
   };
+  
   return (
     <Wrapper>
       <section className="mt-[100px] px-4">
@@ -157,8 +208,10 @@ const Auth: React.FC = () => {
                 {isLogIn ? "Logi" : "Sign Up"}
                 {isLogIn ? <MdLogin /> : <RiLoginCircleFill />}
               </IonButton>
-              <IonLoading trigger="open-loading" message="Loading...." duration={1000} />
 
+              {showLoading && 
+              <IonLoading trigger="open-loading" message="Loading...." duration={1000} />
+}
               <IonButton
                 color="dark"
                 className="ion-margin-top"
