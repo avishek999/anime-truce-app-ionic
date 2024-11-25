@@ -1,6 +1,7 @@
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
+import PrivateRoute from "./routes/ProtectedRoutes";
 import Home from "./pages/Home";
 
 /* Core CSS required for Ionic components to work properly */
@@ -36,22 +37,31 @@ import Auth from "./pages/Auth";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path="/auth">
-        <Auth />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const isAuthenticated = !!localStorage.getItem("authToken");
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Switch>
+            {/* Protected Route for Home */}
+            <PrivateRoute exact path="/home" component={Home} />
+
+            {/* Public Route for Auth */}
+            <Route exact path="/auth">
+              {isAuthenticated ? <Redirect to="/home" /> : <Auth />}
+            </Route>
+
+            {/* Redirect Unknown Paths */}
+            <Route path="/" exact>
+              <Redirect to="/auth" />
+            </Route>
+          </Switch>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

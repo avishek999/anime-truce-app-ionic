@@ -1,11 +1,21 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 
+const PrivateRoute = ({ component: Component, ...rest }: any) => {
+  const isAuthenticated = localStorage.getItem("authToken"); // Replace with your auth logic
 
-const ProtectedRoutes = () => {
   return (
-    <div>ProtectedRoutes</div>
-  )
-}
+    <Route
+      {...rest}
+      render={(props) =>
+        isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/auth" />
+        )
+      }
+    />
+  );
+};
 
-export default ProtectedRoutes
+export default PrivateRoute;
