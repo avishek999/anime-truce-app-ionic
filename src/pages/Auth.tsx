@@ -4,14 +4,21 @@ import {
   IonCard,
   IonCardContent,
   IonInput,
+  IonLoading,
 } from "@ionic/react";
 import React, { useState } from "react";
 import { Slide, toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Redirect } from "react-router-dom";
 // icons imports
 import { MdLogin } from "react-icons/md";
 import { RiLoginCircleFill } from "react-icons/ri";
+
+
+// API imports
+
+import { islogin , isRegister } from "../api/api";
 
 // style imports
 import "./Auth.scss";
@@ -31,6 +38,8 @@ const FakeLogin = [
 
 const Auth: React.FC = () => {
   const [isLogIn, setIsLogIn] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const {
     register,
@@ -39,37 +48,99 @@ const Auth: React.FC = () => {
     reset,
   } = useForm<IFormValues>();
 
-  const handleLogin = (data: IFormValues) => {
-    console.log("login data", data);
 
-    const user = FakeLogin.find(
-      (u) => u.email === data.email && u.password === data.password
-    );
 
-    if (user) {
-      toast.success("Success Notification !", {
+const handleLogin = async (data: IFormValues) => {
+  console.log("Login data:", data);
+  setShowLoading(true);
+
+  try {
+    const response = await axios.post("http://localhost:3000/user/login", {
+      email: data.email,
+      password: data.password,
+    });
+
+    if (response.status === 201) {
+      const { token, user } = response.data;
+
+      toast.success("Login Successful!", {
         position: "top-center",
         theme: "dark",
+        onClose: () => setShowLoading(false),
       });
-    } else {
-      toast.error("Invalid Email & Password !", {
-        position: "top-center",
-        theme: "dark",
-        // icon: ({theme, type}) =>  <img src={invalidImage} sizes="50" style={{ width: '50px', height: 'auto' }} />
-      });
+
+      // Store token in localStorage or cookies
+      localStorage.setItem("authToken", JSON.stringify(token));
+      setIsAuthenticated(true);
+      console.log("Logged-in user:", user);
     }
-  };
+  } catch (error) {
+    // Handle error response
+    const errorMessage =   "Invalid Email & Password!";
+    console.error("Error during login:", error);
+
+    toast.error(errorMessage, {
+      position: "top-center",
+      theme: "dark",
+      onClose: () => setShowLoading(false),
+    });
+  }
+};
+
+  
 
 
-  const handleRegister = (data: IFormValues) => {
-    console.log("Signup Data:", data);
-    if (data.password !== data.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-    alert("Signup Successful!");
-    reset();
-  };
+const handleRegister = async (data: IFormValues) => {
+  console.log("Signup Data:", data);
+
+  // Password validation
+  if (data.password !== data.confirmPassword) {
+    toast.error("Password doesn't match!", {
+      position: "top-center",
+      theme: "dark",
+      onClose: () => setShowLoading(false),
+    });
+    return;
+  }
+
+  setShowLoading(true); // Show a loading indicator if needed
+
+  try {
+    // Sending POST request to the API using Axios
+    const response = await axios.post("http://localhost:3000/user/register", {
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+    });
+
+    console.log("API Response:", response.data);
+
+    toast.success("Sign up Successful!", {
+      position: "top-center",
+      theme: "dark",
+      onClose: () => setShowLoading(false),
+    });
+
+    reset(); // Reset the form fields if you're using react-hook-form
+  } catch (error: any) {
+    console.error("Error:", error);
+
+    const errorMessage =
+      error.response?.data?.message || "Something went wrong!";
+    toast.error(errorMessage, {
+      position: "top-center",
+      theme: "dark",
+      onClose: () => setShowLoading(false),
+    });
+  } finally {
+    setShowLoading(false); // Hide the loading indicator
+  }
+};
+
+if (isAuthenticated) {
+  return <Redirect to="/home" />;
+}
+  
   return (
     <Wrapper>
       <section className="mt-[100px] px-4">
@@ -149,11 +220,15 @@ const Auth: React.FC = () => {
                 type="submit"
                 color="light"
                 shape="round"
+                id="open-loading"
               >
-                {isLogIn ? "Login" : "Sign Up"}
+                {isLogIn ? "Logi" : "Sign Up"}
                 {isLogIn ? <MdLogin /> : <RiLoginCircleFill />}
               </IonButton>
 
+              {showLoading && 
+              <IonLoading trigger="open-loading" message="Loading...." duration={1000} />
+}
               <IonButton
                 color="dark"
                 className="ion-margin-top"
@@ -161,7 +236,7 @@ const Auth: React.FC = () => {
                 shape="round"
                 onClick={() => setIsLogIn(!isLogIn)}
               >
-                {isLogIn ? "Create Account" : "Switch to Login"}
+                {isLogIn ? "Create Accoun" : "Switch to Login"}
                 {isLogIn ? <RiLoginCircleFill /> : <MdLogin />}
               </IonButton>
             </form>
