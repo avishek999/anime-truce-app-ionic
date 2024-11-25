@@ -8,8 +8,9 @@ import {
 } from "@ionic/react";
 import React, { useState } from "react";
 import { Slide, toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Redirect } from "react-router-dom";
 // icons imports
 import { MdLogin } from "react-icons/md";
 import { RiLoginCircleFill } from "react-icons/ri";
@@ -33,6 +34,7 @@ const FakeLogin = [
 const Auth: React.FC = () => {
   const [isLogIn, setIsLogIn] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const {
     register,
@@ -41,88 +43,98 @@ const Auth: React.FC = () => {
     reset,
   } = useForm<IFormValues>();
 
-  const handleLogin = (data: IFormValues) => {
-    console.log("login data", data);
-    setShowLoading(true)
 
-    const user = FakeLogin.find(
 
-      (u) => u.email === data.email && u.password === data.password
-    );
+const handleLogin = async (data: IFormValues) => {
+  console.log("Login data:", data);
+  setShowLoading(true);
 
-    if (user) {
-      
-      toast.success("Login Successfull !", {
+  try {
+    const response = await axios.post("http://localhost:3000/user/login", {
+      email: data.email,
+      password: data.password,
+    });
+
+    if (response.status === 201) {
+      const { token, user } = response.data;
+
+      toast.success("Login Successful!", {
         position: "top-center",
         theme: "dark",
         onClose: () => setShowLoading(false),
       });
-    } else {
-      toast.error("Invalid Email & Password !", {
-        position: "top-center",
-        theme: "dark",
-        onClose: () => setShowLoading(false),
-        // icon: ({theme, type}) =>  <img src={invalidImage} sizes="50" style={{ width: '50px', height: 'auto' }} />
-      });
+
+      // Store token in localStorage or cookies
+      localStorage.setItem("authToken", JSON.stringify(token));
+      setIsAuthenticated(true);
+      console.log("Logged-in user:", user);
     }
-  };
+  } catch (error) {
+    // Handle error response
+    const errorMessage =   "Invalid Email & Password!";
+    console.error("Error during login:", error);
 
-  const handleRegister = async (data: IFormValues) => {
-    console.log("Signup Data:", data);
+    toast.error(errorMessage, {
+      position: "top-center",
+      theme: "dark",
+      onClose: () => setShowLoading(false),
+    });
+  }
+};
+
   
-    // Password validation
-    if (data.password !== data.confirmPassword) {
-      toast.error("Password doesn't match!", {
-        position: "top-center",
-        theme: "dark",
-        onClose: () => setShowLoading(false),
-      });
-      return;
-    }
-  
-    setShowLoading(true); // Show a loading indicator if needed
-  
-    try {
-      // Sending POST request to the API
-      const response = await fetch("http://localhost:3000/user/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-          confirmPassword: data.confirmPassword,
-        }),
-      });
-  
-      if (!response.ok) {
-        // Handle HTTP errors
-        const error = await response.json();
-        throw new Error(error.message || "Registration failed");
-      }
-  
-      const result = await response.json();
-      console.log("API Response:", result);
-  
-      toast.success("Sign up Successful!", {
-        position: "top-center",
-        theme: "dark",
-        onClose: () => setShowLoading(false),
-      });
-  
-      reset(); // Reset the form fields if you use a library like react-hook-form
-    } catch (error: any) {
-      console.error("Error:", error);
-      toast.error(error.message || "Something went wrong!", {
-        position: "top-center",
-        theme: "dark",
-        onClose: () => setShowLoading(false),
-      });
-    } finally {
-      setShowLoading(false); // Hide the loading indicator
-    }
-  };
+
+
+const handleRegister = async (data: IFormValues) => {
+  console.log("Signup Data:", data);
+
+  // Password validation
+  if (data.password !== data.confirmPassword) {
+    toast.error("Password doesn't match!", {
+      position: "top-center",
+      theme: "dark",
+      onClose: () => setShowLoading(false),
+    });
+    return;
+  }
+
+  setShowLoading(true); // Show a loading indicator if needed
+
+  try {
+    // Sending POST request to the API using Axios
+    const response = await axios.post("http://localhost:3000/user/register", {
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+    });
+
+    console.log("API Response:", response.data);
+
+    toast.success("Sign up Successful!", {
+      position: "top-center",
+      theme: "dark",
+      onClose: () => setShowLoading(false),
+    });
+
+    reset(); // Reset the form fields if you're using react-hook-form
+  } catch (error: any) {
+    console.error("Error:", error);
+
+    const errorMessage =
+      error.response?.data?.message || "Something went wrong!";
+    toast.error(errorMessage, {
+      position: "top-center",
+      theme: "dark",
+      onClose: () => setShowLoading(false),
+    });
+  } finally {
+    setShowLoading(false); // Hide the loading indicator
+  }
+};
+
+if (isAuthenticated) {
+  return <Redirect to="/home" />;
+}
   
   return (
     <Wrapper>
