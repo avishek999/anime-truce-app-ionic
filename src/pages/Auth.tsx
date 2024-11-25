@@ -15,6 +15,11 @@ import { Redirect } from "react-router-dom";
 import { MdLogin } from "react-icons/md";
 import { RiLoginCircleFill } from "react-icons/ri";
 
+
+// API imports
+
+import { islogin , isRegister } from "../api/api";
+
 // style imports
 import "./Auth.scss";
 import loginImage from "/auth/log-in-screen-image.webp";

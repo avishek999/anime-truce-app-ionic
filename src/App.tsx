@@ -45,15 +45,10 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonRouterOutlet>
           <Switch>
-            {/* Protected Route for Home */}
             <PrivateRoute exact path="/home" component={Home} />
-
-            {/* Public Route for Auth */}
             <Route exact path="/auth">
               {isAuthenticated ? <Redirect to="/home" /> : <Auth />}
             </Route>
-
-            {/* Redirect Unknown Paths */}
             <Route path="/" exact>
               <Redirect to="/auth" />
             </Route>
