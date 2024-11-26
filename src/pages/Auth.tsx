@@ -18,7 +18,7 @@ import { RiLoginCircleFill } from "react-icons/ri";
 
 // API imports
 
-import { isLogin , isRegister } from "../api/api";
+import { isLogin , registerUser } from "../api/api";
 
 // style imports
 import "./Auth.scss";
@@ -82,52 +82,46 @@ const Auth: React.FC = () => {
   
 
 
-const handleRegister = async (data: IFormValues) => {
-  console.log("Signup Data:", data);
-
-  // Password validation
-  if (data.password !== data.confirmPassword) {
-    toast.error("Password doesn't match!", {
-      position: "top-center",
-      theme: "dark",
-      onClose: () => setShowLoading(false),
-    });
-    return;
-  }
-
-  setShowLoading(true); // Show a loading indicator if needed
-
-  try {
-    // Sending POST request to the API using Axios
-    const response = await axios.post("https://anime-truce-backend.onrender.com/user/register", {
-      email: data.email,
-      password: data.password,
-      confirmPassword: data.confirmPassword,
-    });
-
-    console.log("API Response:", response.data);
-
-    toast.success("Sign up Successful!", {
-      position: "top-center",
-      theme: "dark",
-      onClose: () => setShowLoading(false),
-    });
-
-    reset(); // Reset the form fields if you're using react-hook-form
-  } catch (error: any) {
-    console.error("Error:", error);
-
-    const errorMessage =
-      error.response?.data?.message || "Something went wrong!";
-    toast.error(errorMessage, {
-      position: "top-center",
-      theme: "dark",
-      onClose: () => setShowLoading(false),
-    });
-  } finally {
-    setShowLoading(false); // Hide the loading indicator
-  }
-};
+  const handleRegister = async (data: IFormValues) => {
+    console.log("Signup Data:", data);
+  
+    // Password validation
+    if (data.password !== data.confirmPassword) {
+      toast.error("Password doesn't match!", {
+        position: "top-center",
+        theme: "dark",
+        onClose: () => setShowLoading(false),
+      });
+      return;
+    }
+  
+    setShowLoading(true);
+  
+    try {
+    
+      const result = await registerUser(data.email, data.password, data.confirmPassword);
+  
+      console.log("API Response:", result);
+  
+      toast.success("Sign up Successful!", {
+        position: "top-center",
+        theme: "dark",
+        onClose: () => setShowLoading(false),
+      });
+  
+      reset(); 
+    } catch (error: any) {
+      console.error("Error:", error);
+  
+      toast.error(error, {
+        position: "top-center",
+        theme: "dark",
+        onClose: () => setShowLoading(false),
+      });
+    } finally {
+      setShowLoading(false); 
+    }
+  };
 
 if (isAuthenticated) {
   return <Redirect to="/home" />;
@@ -214,7 +208,7 @@ if (isAuthenticated) {
                 shape="round"
                 id="open-loading"
               >
-                {isLogIn ? "Logi" : "Sign Up"}
+                {isLogIn ? "Login" : "Sign Up"}
                 {isLogIn ? <MdLogin /> : <RiLoginCircleFill />}
               </IonButton>
 
