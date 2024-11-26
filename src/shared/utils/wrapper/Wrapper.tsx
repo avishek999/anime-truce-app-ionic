@@ -24,14 +24,18 @@ const Wrapper: React.FC<IWrapper> = ({
 }) => {
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
     setTimeout(() => {
-      // Any calls to load data go here
+      window.location.reload();
+    
+    // Mark the refresher as complete
+    event.detail.complete();
+
       event.detail.complete();
     }, 2000);
   }
   return (
     <IonPage>
       <IonContent className={"Ion_content"} fullscreen={fullscreen}>
-        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh} className="refresher" >
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
         {children}
