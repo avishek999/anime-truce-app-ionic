@@ -18,7 +18,7 @@ import { RiLoginCircleFill } from "react-icons/ri";
 
 // API imports
 
-import { islogin , isRegister } from "../api/api";
+import { isLogin , isRegister } from "../api/api";
 
 // style imports
 import "./Auth.scss";
@@ -50,42 +50,34 @@ const Auth: React.FC = () => {
 
 
 
-const handleLogin = async (data: IFormValues) => {
-  console.log("Login data:", data);
-  setShowLoading(true);
-
-  try {
-    const response = await axios.post("http://localhost:3000/user/login", {
-      email: data.email,
-      password: data.password,
-    });
-
-    if (response.status === 201) {
+  const handleLogin = async (data: IFormValues) => {
+    console.log("Login data:", data);
+    setShowLoading(true);
+  
+    // Use the loginUser function from the api.ts file
+    const response = await isLogin(data.email, data.password);
+  
+    if (response.success) {
       const { token, user } = response.data;
-
+  
       toast.success("Login Successful!", {
         position: "top-center",
         theme: "dark",
         onClose: () => setShowLoading(false),
       });
-
+  
       // Store token in localStorage or cookies
       localStorage.setItem("authToken", JSON.stringify(token));
       setIsAuthenticated(true);
       console.log("Logged-in user:", user);
+    } else {
+      toast.error(response.error, {
+        position: "top-center",
+        theme: "dark",
+        onClose: () => setShowLoading(false),
+      });
     }
-  } catch (error) {
-    // Handle error response
-    const errorMessage =   "Invalid Email & Password!";
-    console.error("Error during login:", error);
-
-    toast.error(errorMessage, {
-      position: "top-center",
-      theme: "dark",
-      onClose: () => setShowLoading(false),
-    });
-  }
-};
+  };
 
   
 
@@ -107,7 +99,7 @@ const handleRegister = async (data: IFormValues) => {
 
   try {
     // Sending POST request to the API using Axios
-    const response = await axios.post("http://localhost:3000/user/register", {
+    const response = await axios.post("https://rb1lf190-3001.inc1.devtunnels.ms/user/register", {
       email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,
