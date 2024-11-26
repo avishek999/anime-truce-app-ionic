@@ -99,7 +99,7 @@ const handleRegister = async (data: IFormValues) => {
 
   try {
     // Sending POST request to the API using Axios
-    const response = await axios.post("https://rb1lf190-3001.inc1.devtunnels.ms/user/register", {
+    const response = await axios.post("https://anime-truce-backend.onrender.com/user/register", {
       email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,

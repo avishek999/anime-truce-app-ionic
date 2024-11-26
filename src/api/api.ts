@@ -2,12 +2,12 @@
 import axios from 'axios';
 
 
-const API_URL = 'https://rb1lf190-3001.inc1.devtunnels.ms/ ';
+const API_URL = 'https://anime-truce-backend.onrender.com ';
 
 
 export const isLogin = async (email: string, password: string) => {
   try {
-    const response = await axios.post("https://rb1lf190-3001.inc1.devtunnels.ms/user/login", {
+    const response = await axios.post("https://anime-truce-backend.onrender.com/user/login", {
       email,
       password,
     });
