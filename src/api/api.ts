@@ -9,7 +9,7 @@ const API_URL = "https://anime-truce-backend.onrender.com";
 // Log In Api
 export const isLogin = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${API_URL}user/login`, {
+    const response = await axios.post(`${API_URL}/user/login`, {
       email,
       password,
     });
