@@ -2,11 +2,13 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/rea
 import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 import Wrapper from '../shared/utils/wrapper/Wrapper';
+import Swipper from '../components/swiper/Swipper';
+
 
 const Home: React.FC = () => {
   return (
     <Wrapper>
-      hello
+      <Swipper />
     </Wrapper>
   );
 };
