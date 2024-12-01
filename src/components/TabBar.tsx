@@ -15,18 +15,18 @@ const TabBar = () => {
     children: React.ReactNode;
     route: string;
   }) => {
-    const isActive = location.pathname === route; // Check if route matches current path
+    const isActive = location.pathname === route;
 
     return (
       <div
         onClick={() => {
           if (location.pathname !== route) {
-            setRedirectPath(route); // Only redirect if not already on the same route
+            setRedirectPath(route);
           }
         }}
-        className={`p-4 rounded-full transform transition-all duration-300 ${
+        className={`p-5 rounded-full transform transition-all duration-300     ${
           isActive
-            ? "bg-white text-black scale-105 scale-105"
+            ? "bg-white text-black scale-110 outline-double outline-offset-2 outline-4 outline-purple-800  drop-shadow-lg "
             : "bg-transparent text-white scale-100"
         }`}
       >
@@ -37,9 +37,10 @@ const TabBar = () => {
 
   return (
     <>
-      {redirectPath && <Redirect to={redirectPath} />} {/* Handle redirection */}
-      <div className="absolute bottom-[40px] w-full">
-        <div className="bg-white/20 backdrop-blur-sm rounded-3xl mx-auto w-[270px] flex justify-evenly py-3">
+      {redirectPath && <Redirect to={redirectPath} />}{" "}
+      {/* Handle redirection */}
+      <div className="fixed bottom-[40px] w-full">
+        <div className="bg-white/20 backdrop-blur-sm rounded-full mx-auto w-[280px] flex justify-evenly py-1 relative  ">
           <TabBarIcons route="/feature">
             <IoSparkles size={30} />
           </TabBarIcons>

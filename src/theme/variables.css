@@ -19,9 +19,4 @@ http://ionicframework.com/docs/theming/ */
   --primary-danger-text: #cc0000;
 }
 
-@layer base{
-  body{
-    @apply font-poppins text-[16px] tracking-[-0.03em] text-gray-400;
 
-  }
-}

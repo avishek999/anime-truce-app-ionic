@@ -14,6 +14,8 @@ const Home: React.FC = () => {
   return (
     <Wrapper>
       <h1 className="text-center"> Home </h1>
+      
+      
       <TabBar />
     </Wrapper>
   );
