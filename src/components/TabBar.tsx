@@ -24,9 +24,9 @@ const TabBar = () => {
             setRedirectPath(route);
           }
         }}
-        className={`p-5 rounded-full transform transition-all duration-300     ${
+        className={`p-4 rounded-full transform transition-all duration-300     ${
           isActive
-            ? "bg-white text-black scale-110 outline-double outline-offset-2 outline-4 outline-purple-800  drop-shadow-lg "
+            ? "bg-white text-black scale-110 outline outline-offset-2 outline-4 outline-purple-800  drop-shadow-lg "
             : "bg-transparent text-white scale-100"
         }`}
       >
@@ -39,8 +39,8 @@ const TabBar = () => {
     <>
       {redirectPath && <Redirect to={redirectPath} />}{" "}
       {/* Handle redirection */}
-      <div className="fixed bottom-[40px] w-full">
-        <div className="bg-white/20 backdrop-blur-sm rounded-full mx-auto w-[280px] flex justify-evenly py-1 relative  ">
+      <div className="fixed bottom-[20px] w-full">
+        <div className="bg-white/20 backdrop-blur-sm rounded-full mx-auto w-[280px] flex justify-evenly py-0 relative  ">
           <TabBarIcons route="/feature">
             <IoSparkles size={30} />
           </TabBarIcons>
