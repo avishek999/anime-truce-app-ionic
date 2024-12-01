@@ -18,7 +18,7 @@ import { RiLoginCircleFill } from "react-icons/ri";
 
 // API imports
 
-import { isLogin , registerUser } from "../api/api";
+import { isLogin , registerUser } from "../../api/api";
 
 // style imports
 import "./Auth.scss";
@@ -26,9 +26,9 @@ import loginImage from "/auth/log-in-screen-image.webp";
 import registerImage from "/auth/register-screen-image.webp";
 
 //interface import
-import { IFormValues } from "../interface/auth";
+import { IFormValues } from "../../interface/auth";
 import { useForm } from "react-hook-form";
-import Wrapper from "../shared/utils/wrapper/Wrapper";
+import Wrapper from "../../shared/utils/wrapper/Wrapper";
 
 // Dummy Login Data
 const FakeLogin = [
