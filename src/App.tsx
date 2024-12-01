@@ -2,7 +2,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import PrivateRoute from "./routes/ProtectedRoutes";
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -33,7 +33,10 @@ import "@ionic/react/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import Auth from "./pages/Auth";
+import Auth from "./pages/auth/Auth";
+import Page404 from "./pages/Page404";
+import Features from "./pages/features/Features";
+import Bot from "./pages/bot/Bot";
 
 setupIonicReact();
 
@@ -46,11 +49,18 @@ const App: React.FC = () => {
         <IonRouterOutlet>
           <Switch>
             <PrivateRoute exact path="/home" component={Home} />
+            <PrivateRoute exact path="/feature" component={Features} />
+            <PrivateRoute exact path="/bot" component={Bot} />
+
             <Route exact path="/auth">
               {isAuthenticated ? <Redirect to="/home" /> : <Auth />}
             </Route>
             <Route path="/" exact>
               <Redirect to="/auth" />
+            </Route>
+            <Route path="/not-found" exact component={Page404}></Route>
+            <Route path="*" exact>
+              <Redirect to="not-found" />
             </Route>
           </Switch>
         </IonRouterOutlet>
