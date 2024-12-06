@@ -17,6 +17,12 @@ http://ionicframework.com/docs/theming/ */
   --primary-black-text: black;
   --ion-background-color: white;
   --primary-danger-text: #cc0000;
+
+
+  --primary-heading-text: #b6b6b6;
+  --secondary-heading-text: #4f4a4a;
+
+
 }
 
 
