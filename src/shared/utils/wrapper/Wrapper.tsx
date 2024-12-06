@@ -34,12 +34,12 @@ const Wrapper: React.FC<IWrapper> = ({
   }
   return (
     <IonPage>
-      <IonContent className={"Ion_content"} fullscreen={fullscreen}>
+      <div className={"Ion_content"}>
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh} className="refresher" >
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
         {children}
-      </IonContent>
+      </div>
     </IonPage>
   );
 };

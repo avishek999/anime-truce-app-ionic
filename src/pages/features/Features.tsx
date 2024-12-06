@@ -43,18 +43,16 @@ const animeSlides = [
 const Features = () => {
   return (
     <Wrapper>
-      <h1 className="text-4xl font-sans-sarif mt-10 font-bold">
+      <h1 className="text-4xl font-sans-sarif mt-10 font-bold text-center">
         Released <span className="text-purple-100/40">Today</span>
       </h1>
       <FeatureBannerSwiper slides={animeSlides} />
       <UpcomingEpisode />
       <FeatureTitanBanner />
       <SliderSwiper slides={animeSlides} heading="Recent Episode" />
-
       <SliderSwiper slides={animeSlides} heading="Most Popular" />
       <SliderSwiper slides={animeSlides} heading="Latest completed" />
       <FeatureTitan2Banner />
-
       <TabBar />
     </Wrapper>
   );
