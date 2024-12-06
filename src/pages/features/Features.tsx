@@ -43,6 +43,7 @@ const animeSlides = [
 const Features = () => {
   return (
     <Wrapper>
+      
       <h1 className="text-4xl font-sans-sarif mt-10 font-bold text-center">
         Released <span className="text-purple-100/40">Today</span>
       </h1>

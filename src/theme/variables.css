@@ -21,8 +21,10 @@ http://ionicframework.com/docs/theming/ */
 
   --primary-heading-text: #b6b6b6;
   --secondary-heading-text: #4f4a4a;
-
-
+h1,h2,h3{
+  color :var(--primary-heading-text);
+}
+ 
 }
 
 

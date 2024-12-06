@@ -37,6 +37,7 @@ import Auth from "./pages/auth/Auth";
 import Page404 from "./pages/Page404";
 import Features from "./pages/features/Features";
 import Bot from "./pages/bot/Bot";
+import AnimeDetails from "./pages/anime-details/AnimeDetails";
 
 setupIonicReact();
 
@@ -51,6 +52,8 @@ const App: React.FC = () => {
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/feature" component={Features} />
             <PrivateRoute exact path="/bot" component={Bot} />
+            <PrivateRoute exact path={`/anime`} component={AnimeDetails} />
+
 
             <Route exact path="/auth">
               {isAuthenticated ? <Redirect to="/home" /> : <Auth />}

@@ -43,7 +43,8 @@ const animeSlides = [
 
 const Home: React.FC = () => {
   return (
-    <Wrapper>
+    <Wrapper >
+   
       <BannerSwiper slides={animeSlides} />
       <SliderSwiper slides={animeSlides} heading="Recent Episode" />
       <HomeQuoteBanner />
@@ -51,6 +52,7 @@ const Home: React.FC = () => {
       <AllAnimeList url="www.google.com" />
       <HomeBottomBanner />
       <TabBar />
+     
     </Wrapper>
   );
 };

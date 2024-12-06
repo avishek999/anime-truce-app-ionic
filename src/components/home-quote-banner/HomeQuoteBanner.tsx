@@ -75,7 +75,7 @@ export const HomeQuoteBanner = () => {
       <div className="backdrop-blur-sm sticky   bg-white/20 border border-neutral-500 h-20  w-96 rounded-xl  shadow-lg shadow-white/20">
         <div className="flex relative items-center ">
           <div
-            className={`text-lg  pt-7 pl-3 font-bold  transition-all duration-200 ease-in-out ${
+            className={`text-lg  pt-7 pl-3 font-bold  transition-all duration-200 ease-in-out  text-white${
               fade ? "opacity-100" : "opacity-0"
             }`}
           >
