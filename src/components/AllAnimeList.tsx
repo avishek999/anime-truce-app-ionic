@@ -1,17 +1,14 @@
-
 import { IonRouterLink } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 
-
 export interface IAllAnimeList {
-  url:string;
+  url: string;
 }
 
-
-const AllAnimeList: React.FC<IAllAnimeList> = ({url}) => {
+const AllAnimeList: React.FC<IAllAnimeList> = ({ url }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [allAnime, setAllAnime] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   // Calculate paginated data
@@ -30,18 +27,12 @@ const AllAnimeList: React.FC<IAllAnimeList> = ({url}) => {
   const handlePreviousPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
-  useEffect(() => {
-  
-  }, [allAnime]);
-
-
+  useEffect(() => {}, [allAnime]);
 
   return (
     <div className="overflow-auto">
-     
-    
       {loading ? (
-        <p>Loading...</p> 
+        <p>Loading...</p>
       ) : (
         <div>
           <div className="grid grid-cols-2 gap-2 p-0 mt-6">

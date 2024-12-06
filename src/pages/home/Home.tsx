@@ -45,10 +45,10 @@ const Home: React.FC = () => {
   return (
     <Wrapper>
       <BannerSwiper slides={animeSlides} />
-      <SliderSwiper  slides={animeSlides} heading="Recent Episode" />
+      <SliderSwiper slides={animeSlides} heading="Recent Episode" />
       <HomeQuoteBanner />
       <CategoryButton />
-      <AllAnimeList  url="www.google.com"/>
+      <AllAnimeList url="www.google.com" />
       <HomeBottomBanner />
       <TabBar />
     </Wrapper>

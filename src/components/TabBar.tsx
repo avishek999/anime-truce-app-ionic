@@ -38,7 +38,7 @@ const TabBar = () => {
   return (
     <>
       {redirectPath && <Redirect to={redirectPath} />}{" "}
-      <div className="fixed bottom-[20px] w-full">
+      <div className="fixed bottom-[20px] w-full z-40">
         <div className="bg-white/20 backdrop-blur-sm rounded-full mx-auto w-[280px] flex justify-evenly py-0 relative  ">
           <TabBarIcons route="/feature">
             <IoSparklesOutline size={30} />

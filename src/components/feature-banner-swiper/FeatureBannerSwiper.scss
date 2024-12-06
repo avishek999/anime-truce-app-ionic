@@ -1,0 +1,30 @@
+.SwiperCard2{
+    .swiper {
+        width: 280px;
+        height: 390px;
+      }
+      
+      .swiper-slide {
+        display: flex;
+        height: auto;
+        width: 250px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
+        font-size: 22px;
+        font-weight: bold;
+        color: #fff;
+        padding: 15px;
+        background-color: rgba(0 0 0 / 0.3);
+        border:outset;
+        border-color: rgba(255 255 255 / 0.3);
+      }
+      
+    .sliderText{
+      background: linear-gradient(
+        180deg,
+        var(--banner-gradient-start) 0%,
+        var(--banner-gradient-end) 100%
+      );
+    }
+    }
