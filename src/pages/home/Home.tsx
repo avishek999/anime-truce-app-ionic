@@ -42,6 +42,8 @@ const animeSlides = [
 ];
 
 const Home: React.FC = () => {
+
+
   return (
     <Wrapper >
    

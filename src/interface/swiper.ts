@@ -5,6 +5,6 @@ export interface ISwiper {
   }
   
   export interface IBannerSwiper {
-    slides: ISwiper[];
+    slides?: ISwiper[];
     heading?: string;
   }

@@ -30,7 +30,7 @@ const SliderSwiper: React.FC<IBannerSwiper> = ({ slides , heading }) => {
         modules={[Pagination, Navigation]}
         className="SwiperCardContainer"
       >
-        {slides.map((slide) => (
+        {slides?.map((slide) => (
           <SwiperSlide key={slide.id} className="SwiperCard p-4  ">
             <IonRouterLink
               routerLink={`/anime/${slide.id}`}

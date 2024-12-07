@@ -29,7 +29,7 @@ import {
           modules={[EffectCards]} 
           className="mySwiper mt-10"
         >
-          {slides.map((slide, index) => (
+          {slides?.map((slide, index) => (
             <>
               <SwiperSlide key={index} className="relative">
               <IonRouterLink

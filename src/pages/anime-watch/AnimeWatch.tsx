@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Wrapper from "../../shared/utils/wrapper/Wrapper";
 import { IAnimeDetails } from "../../interface/anime";
-
 import { FaCirclePlay } from "react-icons/fa6";
-
-import { IoArrowBack } from "react-icons/io5";
 import BackButton from "../../components/BackButton";
+
 const animeData: IAnimeDetails = {
   id: "blue-lock-season-2-19318",
   title: "Blue Lock Season 2",
@@ -135,94 +133,54 @@ const animeData: IAnimeDetails = {
   ],
 };
 
-const AnimeDetails: React.FC<IAnimeDetails> = ({
-  title,
-  image,
-  description,
-  type,
-  totalEpisodes,
-  recommendations,
-}) => {
-  const [loadMore, setLoadMore] = useState(true);
-
-  const handleLoadMore = () => {
-    setLoadMore(!loadMore);
-  };
-
-
- 
+const AnimeWatch = () => {
   return (
     <Wrapper>
-      <div className="anime_details_screen">
-        <BackButton />
-        <>
-          <img
-            className="w-[220px] mx-auto mt-5 rounded-2xl p-2 bg-white/70   shadow-2xl shadow-purple-100/30  "
-            src={animeData.image}
-            alt="img"
-          />
-          <div className="px-5">
-            <h1 className="mt-10 text-3xl font-bold font-sans antialiased tracking-wide leading-9 text-center">
-              {animeData.title}
-            </h1>
-            <p
-              onClick={handleLoadMore}
-              className={`${
-                loadMore ? "line-clamp-4" : ""
-              }  mt-5 text-white/70 text-justify  bg-black/20  `}
+      <div className="video-container">
+        <video
+          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          poster="https://example.com/path-to-your-anime-thumbnail.jpg"
+          style={{ width: "100%", height: "auto" }}
+          className="bg-black shadow-2xl shadow-purple-300/30"
+          controls
+        />
+
+        <div className="text-center text-2xl mt-2 ">
+          <h1 className="font-bold">Blue Lock Season 2</h1>
+          <h3 className="mt-4">Episode 1</h3>
+        </div>
+
+        <div className="w-100 border border-gray-700 h-[500px] overflow-auto rounded-3xl mt-5 mx-4">
+          {animeData.episodes.map((episode) => (
+            <div
+              key={episode.id}
+              className="w-100 h-[100px] py-2 px-4 mt-5 bg-white/20"
             >
-              {animeData.description}
-            </p>
-            <h3 className="mt-5">
-              Total Episodes:{" "}
-              <span className="px-6 py-2 border bg-purple-300/ ml-5     ">
-                {animeData.totalEpisodes}
-              </span>
-            </h3>
-            <div className="flex items-center gap-4 mt-3">
-              <h4>type</h4>
-              <div className="px-2 py-1 border bg-white/20">
-                {animeData.type}
+              <div className="flex gap-4">
+                <div className="relative">
+                  <img
+                    src={animeData.image}
+                    width={60}
+                    alt=""
+                    className="rounded-xl"
+                  />
+                  <FaCirclePlay
+                    className="absolute inset-0 m-auto text-black animate-pulse"
+                    size={40}
+                  />
+                </div>
+                <div>
+                  <h1 className="text-xl font-semibold">{episode.title}</h1>
+                  <h2 className="mt-2">Episode: {episode.number}</h2>
+                </div>
               </div>
             </div>
-            <div className="w-100 border border-gray-700 h-[500px] overflow-auto rounded-3xl bg-black/30 mt-5">
-              <h2 className="text-3xl py-4 font-bold h-18 sticky top-0 bg-black  text-center rounded-xl w-full z-10">
-                Episodes
-              </h2>
-
-              {animeData.episodes.map((episode) => (
-                <div
-                  key={episode.id}
-                  className="w-100 h-[100px] py-2 px-4 mt-5 bg-white/20"
-                >
-                  <div className="flex gap-4">
-                    <div className="relative">
-                      <img
-                        src={animeData.image}
-                        width={60}
-                        alt=""
-                        className="rounded-xl"
-                      />
-                      <FaCirclePlay
-                        className="absolute inset-0 m-auto text-black animate-pulse"
-                        size={40}
-                      />
-                    </div>
-                    <div>
-                      <h1 className="text-xl font-semibold">{episode.title}</h1>
-                      <h2 className="mt-2">Episode: {episode.number}</h2>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <h1 className="text-2xl my-4">Recommendations</h1>
-          </div>
-        </>
+          ))}
+        </div>
       </div>
+<BackButton />
     </Wrapper>
   );
 };
 
-export default AnimeDetails;
+export default AnimeWatch;
