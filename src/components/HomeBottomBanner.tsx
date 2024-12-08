@@ -11,7 +11,7 @@ const HomeBottomBanner = () => {
   }, []);
 
   return (
-    <div className="relative w-full flex justify-center mt-20 items-center">
+    <div className="relative w-full flex justify-center mt-20 items-center mb-24">
       <div className="backdrop-blur-sm sticky bg-white/20 border border-neutral-500 h-20 w-96 rounded-xl">
         <div className="flex relative items-center">
           {first ? (
