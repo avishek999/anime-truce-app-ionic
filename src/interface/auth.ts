@@ -1,7 +1,26 @@
+export interface IRegisterPayload {
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}
 
-export interface IFormValues {
+export interface ILoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface ILoginResponse {
+  token: string;
+  user: {
+    id: string;
+    name: string;
     email: string;
-    password: string;
-    confirmPassword?: string; 
-  }
-  
+  };
+}
+
+export interface ILoginResult {
+  success: boolean;
+  data?: ILoginResponse;
+  error?: string;
+}
+

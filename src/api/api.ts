@@ -1,45 +1,91 @@
+import axios, { AxiosResponse } from "axios";
+import { ANIME_URL, SERVER_URL } from "../service/config";
+import {  ILoginPayload, ILoginResponse, ILoginResult } from "../interface/auth";
+import {  ITopAiringAnime } from "../interface/anime";
+import { ERROR_MESSAGES, IApiResponse } from "../interface/common";
 
-import axios from 'axios';
 
 
-const API_URL = "https://anime-truce-backend.onrender.com";
-
-
-
-// Log In Api
-export const isLogin = async (email: string, password: string) => {
+//  ======================================= AUTHORIZATION START  ============================================
+ 
+export const IsLogin = async (payload:ILoginPayload ): Promise<ILoginResult> => {
   try {
-    const response = await axios.post(`${API_URL}/user/login`, {
-      email,
-      password,
-    });
+    const response: AxiosResponse<ILoginResponse>=
+    await axios.post(`${SERVER_URL}/user/login`,payload);
 
-    if (response.status === 201) {
-      return { success: true, data: response.data };
+    if(response.status === 201){
+      return{
+        success:true,
+        data: response.data,
+      };
     }
-    
-    
-    return { success: false, error: "Unexpected response status" };
 
-  } catch (error) {
-  
-    return { success: false, error: "Invalid Email & Password!" };
+    return{
+      success:false,
+      error: `Unexpected response status: ${response.status} `,
+    }
+  } 
+  catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        // Server returned an error
+        return {
+          success: false,
+          error: error.response.data.message || ERROR_MESSAGES.INVALID_CREDENTIALS,
+        };
+      } else if (error.request) {
+        // No response received
+        return {
+          success: false,
+          error: ERROR_MESSAGES.NETWORK_ERROR,
+        };
+      }
+    }
   }
-};
 
+return{
+  success:false,
+   error: ERROR_MESSAGES.UNEXPECTED_ERROR,
+}
+}
 
 // Register APi
-export const registerUser = async (email: string, password: string, confirmPassword: string) => {
+export const registerUser = async (
+  email: string,
+  password: string,
+  confirmPassword: string
+) => {
   try {
-    const response = await axios.post(`${API_URL}/user/register`, {
+    const response = await axios.post(`${SERVER_URL}/user/register`, {
       email,
       password,
       confirmPassword,
     });
-   console.log(response);
-   
-    return response.data; 
+    console.log(response);
+
+    return response.data;
   } catch (error: any) {
     throw error.response?.data?.message || "Something went wrong!";
   }
 };
+
+
+//  ======================================= AUTHORIZATION END  ============================================
+
+
+
+//  ======================================= ANIME API START  ============================================
+
+
+
+export const getTopAiringAnimeData = async():Promise<IApiResponse<ITopAiringAnime>> =>{
+try {
+  const response = await axios.get(`${ANIME_URL}/top-airing`);
+  return response.data;
+} catch (error) {
+     console.log(error,ERROR_MESSAGES.UNEXPECTED_ERROR);
+     throw new Error(ERROR_MESSAGES.UNEXPECTED_ERROR);
+}
+}
+
+//  ======================================= ANIME API END  ============================================

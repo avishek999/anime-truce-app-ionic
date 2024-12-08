@@ -8,27 +8,27 @@ import {
 } from "@ionic/react";
 import React, { useState } from "react";
 import { Slide, toast, ToastContainer } from "react-toastify";
-import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
 import { Redirect } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+//custom components
+import Wrapper from "../../shared/utils/wrapper/Wrapper";
+
 // icons imports
 import { MdLogin } from "react-icons/md";
 import { RiLoginCircleFill } from "react-icons/ri";
 
-
 // API imports
-
-import { isLogin , registerUser } from "../api/api";
+import { IsLogin , registerUser } from "../../api/api";
 
 // style imports
 import "./Auth.scss";
+import "react-toastify/dist/ReactToastify.css";
 import loginImage from "/auth/log-in-screen-image.webp";
 import registerImage from "/auth/register-screen-image.webp";
 
 //interface import
-import { IFormValues } from "../interface/auth";
-import { useForm } from "react-hook-form";
-import Wrapper from "../shared/utils/wrapper/Wrapper";
+import { IRegisterPayload, ILoginPayload } from "../../interface/auth";
 
 // Dummy Login Data
 const FakeLogin = [
@@ -46,43 +46,54 @@ const Auth: React.FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormValues>();
+  } = useForm<IRegisterPayload>();
 
 
 
-  const handleLogin = async (data: IFormValues) => {
+  const handleLogin = async (data: ILoginPayload): Promise<void> => {
     console.log("Login data:", data);
     setShowLoading(true);
   
-    // Use the loginUser function from the api.ts file
-    const response = await isLogin(data.email, data.password);
+    try {
+      const response = await IsLogin(data);
   
-    if (response.success) {
-      const { token, user } = response.data;
+      if (response.success && response.data) {
+        const { token, user } = response.data;
   
-      toast.success("Login Successful!", {
+        toast.success("Login Successful!", {
+          position: "top-center",
+          theme: "dark",
+          onClose: () => setShowLoading(false),
+        });
+  
+        localStorage.setItem("authToken", token);
+        setIsAuthenticated(true);
+        console.log("Logged-in user:", user);
+      } else {
+        toast.error(response.error || "Login failed!", {
+          position: "top-center",
+          theme: "dark",
+          onClose: () => setShowLoading(false),
+        });
+      }
+    } catch (error: unknown) {
+      toast.error("Unexpected error occurred during login.", {
         position: "top-center",
         theme: "dark",
         onClose: () => setShowLoading(false),
       });
-  
-      // Store token in localStorage or cookies
-      localStorage.setItem("authToken", JSON.stringify(token));
-      setIsAuthenticated(true);
-      console.log("Logged-in user:", user);
-    } else {
-      toast.error(response.error, {
-        position: "top-center",
-        theme: "dark",
-        onClose: () => setShowLoading(false),
-      });
+      console.error("Unexpected error:", error);
+    } finally {
+      setShowLoading(false);
     }
   };
+  
+  
 
   
 
 
-  const handleRegister = async (data: IFormValues) => {
+  const handleRegister = async (data: IRegisterPayload) => {
     console.log("Signup Data:", data);
   
     // Password validation
@@ -222,7 +233,7 @@ if (isAuthenticated) {
                 shape="round"
                 onClick={() => setIsLogIn(!isLogIn)}
               >
-                {isLogIn ? "Create Accoun" : "Switch to Login"}
+                {isLogIn ? "Create Account" : "Switch to Login"}
                 {isLogIn ? <RiLoginCircleFill /> : <MdLogin />}
               </IonButton>
             </form>
