@@ -50,7 +50,7 @@ const BannerSwiper: React.FC<IBannerSwiper> = ({ slides }) => {
           {slides?.map((slide) => (
             <SwiperSlide key={slide.id} className="Banner">
               <IonRouterLink
-                routerLink={`/anime/${slide.id}`}
+                routerLink={`/anime`}
                 routerDirection="forward"
               >
                 <img

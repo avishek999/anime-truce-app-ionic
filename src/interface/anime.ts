@@ -1,3 +1,15 @@
+
+/* ================================================== Anime  List Start ================================= */ 
+export interface ITopAiringAnime {
+  id: string,
+  title: string,
+  image: string,
+  sub: number,
+}
+/* ================================================== Anime  List end ================================= */ 
+
+
+/* ================================================== Anime  info start ================================= */ 
 export interface IAnimeDetails {
     id: string;
     title: string;
@@ -7,7 +19,7 @@ export interface IAnimeDetails {
     type: string;
     recommendations: IAnimeRecommendation[];
     episodes: episodes[]
-  }
+  }  
   
  interface IAnimeRecommendation {
     id: string;
@@ -18,7 +30,7 @@ export interface IAnimeDetails {
     sub: number;
     dub: number;
     episodes: number;
-  }
+  }  
   
 
 interface episodes {
@@ -26,4 +38,10 @@ interface episodes {
     number: number,
     title: string,
     isFiller:boolean
-}
+}    
+
+
+/* ================================================== Anime  info end ================================= */ 
+
+
+

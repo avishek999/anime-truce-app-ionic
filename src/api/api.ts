@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { ANIME_URL, SERVER_URL } from "../service/config";
-import { AUTH_ERROR_MESSAGES, ILoginPayload, ILoginResponse, ILoginResult } from "../interface/auth";
+import {  ILoginPayload, ILoginResponse, ILoginResult } from "../interface/auth";
+import {  ITopAiringAnime } from "../interface/anime";
+import { ERROR_MESSAGES, IApiResponse } from "../interface/common";
 
 
 
@@ -29,13 +31,13 @@ export const IsLogin = async (payload:ILoginPayload ): Promise<ILoginResult> => 
         // Server returned an error
         return {
           success: false,
-          error: error.response.data.message || AUTH_ERROR_MESSAGES.INVALID_CREDENTIALS,
+          error: error.response.data.message || ERROR_MESSAGES.INVALID_CREDENTIALS,
         };
       } else if (error.request) {
         // No response received
         return {
           success: false,
-          error: AUTH_ERROR_MESSAGES.NETWORK_ERROR,
+          error: ERROR_MESSAGES.NETWORK_ERROR,
         };
       }
     }
@@ -43,7 +45,7 @@ export const IsLogin = async (payload:ILoginPayload ): Promise<ILoginResult> => 
 
 return{
   success:false,
-   error: AUTH_ERROR_MESSAGES.UNEXPECTED_ERROR,
+   error: ERROR_MESSAGES.UNEXPECTED_ERROR,
 }
 }
 
@@ -75,16 +77,15 @@ export const registerUser = async (
 //  ======================================= ANIME API START  ============================================
 
 
-// Anime Fetching api
 
-export const FetchAnime = async() =>{
-  try {
-    const response = await axios.get( `${ANIME_URL}/zoro/recent-episodes`);
-    return response.data;
-  } catch (error) {
-    console.log(error, "something went wrong");
-    throw error;
-  }
+export const getTopAiringAnimeData = async():Promise<IApiResponse<ITopAiringAnime>> =>{
+try {
+  const response = await axios.get(`${ANIME_URL}/top-airing`);
+  return response.data;
+} catch (error) {
+     console.log(error,ERROR_MESSAGES.UNEXPECTED_ERROR);
+     throw new Error(ERROR_MESSAGES.UNEXPECTED_ERROR);
+}
 }
 
 //  ======================================= ANIME API END  ============================================
