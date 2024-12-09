@@ -7,7 +7,7 @@ import { HomeQuoteBanner } from "../../components/home-quote-banner/HomeQuoteBan
 import CategoryButton from "../../components/CategoryButton";
 import AllAnimeList from "../../components/AllAnimeList";
 import HomeBottomBanner from "../../components/HomeBottomBanner";
-import { useRecentAnime, useTopAiringAnime } from "../../Hooks/useAnimeHook";
+import { useRecentAnime, useTopAiringAnime } from "../../Hooks/react-query";
 
 
 const animeSlides = [
