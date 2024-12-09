@@ -90,7 +90,7 @@ try {
 export const getRecentAnimeData = async():Promise<IApiResponse<ITopAiringAnime>> =>{
   try {
     const response = await axios.get(`${ANIME_URL}/recent-episodes`);
-    return response.data.results;
+    return response.data;
   } catch (error) {
        console.log(error,ERROR_MESSAGES.UNEXPECTED_ERROR);
        throw new Error(ERROR_MESSAGES.UNEXPECTED_ERROR);
