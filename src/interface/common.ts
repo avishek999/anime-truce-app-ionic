@@ -5,5 +5,6 @@ export const ERROR_MESSAGES = {
 };
 export interface IApiResponse<IData> {
   message: string;
-  data: IData;
+  data: [IData];
+  results: [];
 }
