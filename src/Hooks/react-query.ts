@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getRecentAnimeData, getTopAiringAnimeData } from "../api/api";
+import { getAnimeDetails, getAnimeWatchDetails, getRecentAnimeData, getTopAiringAnimeData } from "../api/api";
 
 
 
@@ -19,6 +19,22 @@ export const useRecentAnime = () => {
     return useQuery({
       queryKey: ["recentAiringAnime"], 
       queryFn: getRecentAnimeData, 
+    });
+  };
+
+  export const useAnimeDetails = (id:string) => {
+    return useQuery({
+      queryKey: ["detailsAnime", id], 
+      queryFn: () => getAnimeDetails(id), 
+      enabled: !!id, 
+    });
+  };
+
+  export const useWatchAnimeDetails = (id:string) => {
+    return useQuery({
+      queryKey: ["watchAnime", id], 
+      queryFn: () => getAnimeWatchDetails(id), 
+      enabled: !!id, 
     });
   };
   

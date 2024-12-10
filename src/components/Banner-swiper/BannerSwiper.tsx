@@ -52,7 +52,7 @@ const BannerSwiper: React.FC<IBannerSwiper> = ({ slides }) => {
         <div className="banner_container">
           {slides?.map((slide) => (
             <SwiperSlide key={slide.id} className="Banner">
-              <IonRouterLink routerLink={`/anime`} routerDirection="forward">
+              <IonRouterLink routerLink={`/anime/${slide.id}`} routerDirection="forward">
                 <img
                   className="Banner_Img"
                   src={slide.image}
@@ -60,7 +60,7 @@ const BannerSwiper: React.FC<IBannerSwiper> = ({ slides }) => {
                   loading="lazy"
                 />
                 <p className="Banner_Heading z-10">Top Airing</p>
-                <h4 className="Banner_Title">{slide.title}</h4>
+                <h4 className="Banner_Title">{slide.title.english}</h4>
                 <div className="text-yellow-500 flex items-center gap-2 absolute bottom-[20px] text-sm left-[12px] z-10">
                   <FaStar className="text-yellow-400 z-30" />
                   2.5k
