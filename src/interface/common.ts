@@ -14,6 +14,7 @@ export interface IApiResponse<IData> {
   message: string;
   data: [IData];
   results: [];
+  sources:any
 }
 
 
