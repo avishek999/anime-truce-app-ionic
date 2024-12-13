@@ -17,24 +17,27 @@ const AnimeWatch = () => {
   // Extract video source
   const video = data?.sources?.[0].url ;
 
-  console.log(video);
+  // const proxyVideoUrl = video ? `http://localhost:3001/proxy?url=${encodeURIComponent(video)}` : '';
+  // console.log(proxyVideoUrl);
+
+  const proxyVideoUrl = video ? `https://cors-anywhere.herokuapp.com/${video}` : '';
 
 
   useEffect(() => {
-    if (video && videoRef.current) {
-      console.log(video);
+    if (proxyVideoUrl && videoRef.current) {
+      console.log(proxyVideoUrl);
       
       if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource(video);
+        hls.loadSource(proxyVideoUrl);
         hls.attachMedia(videoRef.current);
         return () => hls.destroy();
       } else {
         // Fallback for browsers without HLS support
-        videoRef.current.src = video;
+        videoRef.current.src = proxyVideoUrl;
       }
     }
-  }, [video]);
+  }, [proxyVideoUrl]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
