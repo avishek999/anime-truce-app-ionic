@@ -37,7 +37,7 @@ const AnimeDetails: React.FC<IAnimeDetails> = ({
           <div className="px-5">
             <a href="/watch">
             <h1 className="mt-10 text-3xl font-bold font-sans antialiased tracking-wide leading-9 text-center">
-              {data?.title}               
+              {data?.title.english}               
             </h1>
             </a>
             <p
