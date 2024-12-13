@@ -12,7 +12,7 @@ export interface ITopAiringAnime {
 /* ================================================== Anime  info start ================================= */ 
 export interface IAnimeDetails {
     id: string;
-    title: IAnimeTitle
+    title: IAnimeTitle[]
     image: string;
     description: string;
     totalEpisodes:number;

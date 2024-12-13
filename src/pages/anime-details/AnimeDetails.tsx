@@ -4,26 +4,22 @@ import { IAnimeDetails } from "../../interface/anime";
 
 import { FaCirclePlay } from "react-icons/fa6";
 
-
 import BackButton from "../../components/BackButton";
 import { useParams } from "react-router";
 import { useAnimeDetails } from "../../Hooks/react-query";
 import { IonRouterLink } from "@ionic/react";
 
-
-const AnimeDetails: React.FC<IAnimeDetails> = ({
-
-}) => {
+const AnimeDetails: React.FC<IAnimeDetails> = ({}) => {
   const [loadMore, setLoadMore] = useState(true);
 
   const handleLoadMore = () => {
     setLoadMore(!loadMore);
   };
 
-  const { id } = useParams<{ id: string }>(); 
-  
+  const { id } = useParams<{ id: string }>();
+
   const { data, isLoading, error } = useAnimeDetails(id);
- 
+
   return (
     <Wrapper>
       <div className="anime_details_screen">
@@ -36,9 +32,9 @@ const AnimeDetails: React.FC<IAnimeDetails> = ({
           />
           <div className="px-5">
             <a href="/watch">
-            <h1 className="mt-10 text-3xl font-bold font-sans antialiased tracking-wide leading-9 text-center">
-              {data?.title.english}               
-            </h1>
+              <h1 className="mt-10 text-3xl font-bold font-sans antialiased tracking-wide leading-9 text-center">
+                {data?.title[0] || "Title not available"}
+              </h1>
             </a>
             <p
               onClick={handleLoadMore}
@@ -56,9 +52,7 @@ const AnimeDetails: React.FC<IAnimeDetails> = ({
             </h3>
             <div className="flex items-center gap-4 mt-3">
               <h4>type</h4>
-              <div className="px-2 py-1 border bg-white/20">
-                {data?.type}
-              </div>
+              <div className="px-2 py-1 border bg-white/20">{data?.type}</div>
             </div>
             <div className="w-100 border border-gray-700 h-[500px] overflow-auto rounded-3xl bg-black/30 mt-5">
               <h2 className="text-3xl py-4 font-bold h-18 sticky top-0 bg-black  text-center rounded-xl w-full z-10">
@@ -66,30 +60,34 @@ const AnimeDetails: React.FC<IAnimeDetails> = ({
               </h2>
 
               {data?.episodes.map((episode) => (
-                
                 <div
                   key={episode.id}
                   className="w-100 h-[100px] py-2 px-4 mt-5 bg-white/20"
                 >
-                  <IonRouterLink routerLink={`/watch/${episode.id}`} routerDirection="forward">
-                  <div className="flex gap-4">
-                    <div className="relative">
-                      <img
-                        src={data.image}
-                        width={60}
-                        alt=""
-                        className="rounded-xl"
-                      />
-                      <FaCirclePlay
-                        className="absolute inset-0 m-auto text-black animate-pulse"
-                        size={40}
-                      />
+                  <IonRouterLink
+                    routerLink={`/watch/${episode.id}`}
+                    routerDirection="forward"
+                  >
+                    <div className="flex gap-4">
+                      <div className="relative">
+                        <img
+                          src={data.image}
+                          width={60}
+                          alt=""
+                          className="rounded-xl"
+                        />
+                        <FaCirclePlay
+                          className="absolute inset-0 m-auto text-black animate-pulse"
+                          size={40}
+                        />
+                      </div>
+                      <div>
+                        <h1 className="text-xl font-semibold">
+                          {episode.title}
+                        </h1>
+                        <h2 className="mt-2">Episode: {episode.number}</h2>
+                      </div>
                     </div>
-                    <div>
-                      <h1 className="text-xl font-semibold">{episode.title}</h1>
-                      <h2 className="mt-2">Episode: {episode.number}</h2>
-                    </div>
-                  </div>
                   </IonRouterLink>
                 </div>
               ))}
