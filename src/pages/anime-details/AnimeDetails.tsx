@@ -76,6 +76,7 @@ const AnimeDetails: React.FC<IAnimeDetails> = ({}) => {
                           alt=""
                           className="rounded-xl"
                         />
+
                         <FaCirclePlay
                           className="absolute inset-0 m-auto text-black animate-pulse"
                           size={40}

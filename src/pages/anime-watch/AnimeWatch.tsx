@@ -15,26 +15,39 @@ const AnimeWatch = () => {
   const { data, isLoading, error } = useWatchAnimeDetails(id);
 
   // Extract video source
-  const video = data?.sources?.[0].url ;
+  const proxyVideoUrl = data?.sources?.[0].url
+    ? `http://localhost:3001/proxy?url=${encodeURIComponent(data.sources[0].url)}`
+    : "";
 
-  // const proxyVideoUrl = video ? `http://localhost:3001/proxy?url=${encodeURIComponent(video)}` : '';
-  // console.log(proxyVideoUrl);
-
-  const proxyVideoUrl = video ? `https://cors-anywhere.herokuapp.com/${video}` : '';
-
-
+  // Check if video URL is valid and initialize HLS.js if supported
   useEffect(() => {
     if (proxyVideoUrl && videoRef.current) {
-      console.log(proxyVideoUrl);
-      
+      console.log("Proxy Video URL:", proxyVideoUrl);
+
+      // Initialize HLS.js if supported
       if (Hls.isSupported()) {
         const hls = new Hls();
         hls.loadSource(proxyVideoUrl);
         hls.attachMedia(videoRef.current);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          console.log("HLS Manifest parsed, ready to play.");
+          videoRef.current?.play(); // Attempt autoplay or manual play trigger
+        });
+
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          console.error("HLS Error:", data);
+        });
+
+        // Cleanup HLS.js on component unmount
         return () => hls.destroy();
       } else {
         // Fallback for browsers without HLS support
         videoRef.current.src = proxyVideoUrl;
+
+        videoRef.current.addEventListener("loadedmetadata", () => {
+          videoRef.current?.play();
+        });
       }
     }
   }, [proxyVideoUrl]);
