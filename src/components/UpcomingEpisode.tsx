@@ -83,9 +83,9 @@ const UpcomingEpisode = () => {
         </h1>
 
         <ul className="flex gap-5 px-2 overflow-auto">
-          {days.map((day) => (
+          {days.map((day, index) => (
             <li
-              key={day.formattedDate} // Use formatted date for better uniqueness
+              key={index + 1} // Use formatted date for better uniqueness
               onClick={() => setSelectedDate(day.dayName)} // Correctly set the day
               className={`${
                 selectedDate === day.dayName ? "bg-white text-black" : ""
@@ -98,8 +98,8 @@ const UpcomingEpisode = () => {
 
         <div className="flex overflow-auto mt-5">
           <div className="flex flex-col gap-5 h-[372px] overflow-auto items-start px-4">
-            {episodes.map((episode) => (
-              <div key={episode.id} className="flex items-center gap-4">
+            {episodes.map((episode, index) => (
+              <div key={index + 1} className="flex items-center gap-4">
                 <h1 className="text-md w-[90px]">
                   {new Date(episode.airingAt * 1000).toLocaleTimeString(
                     "en-US",

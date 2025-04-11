@@ -58,7 +58,7 @@ const Auth: React.FC = () => {
       const response = await IsLogin(data);
   
       if (response.success && response.data) {
-        const { token, user } = response.data;
+        const { token } = response.data;
   
         toast.success("Login Successful!", {
           position: "top-center",
@@ -68,7 +68,7 @@ const Auth: React.FC = () => {
   
         localStorage.setItem("authToken", token);
         setIsAuthenticated(true);
-        console.log("Logged-in user:", user);
+        console.log("Logged-in user:", data.email);
       } else {
         toast.error(response.error || "Login failed!", {
           position: "top-center",
